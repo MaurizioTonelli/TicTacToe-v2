@@ -2,12 +2,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <h1 class="title">Tic Tac Toe</h1>
+
+    <div class="score-board">
+        <div class="player1">
+            <button class="icon-btn"><img class="icon" src="images/edit_icon.png"></button>
+            <h2 class="player1-name">Player 1</h2>
+        </div>
+        <div class="score">0 - 0</div>
+        <div class="player2">
+            <h2 class="player2-name">Player 2</h2>
+            <button class="icon-btn"><img class="icon" src="images/edit_icon.png"></button>
+        </div>
+    </div>
+    <div class="options-container">
+        <div class="options">
+            <button id="select-player">Play vs AI</button>
+            <button id="reset-score">Reset Score</button>
+        </div>
+    </div>
+    <div class="game-board-container">
+        <div class="game-board">
+            <div id="a1">O</div>
+            <div id="b1">X</div>
+            <div id="c1"></div>
+            <div id="a2"></div>
+            <div id="b2"></div>
+            <div id="c2"></div>
+            <div id="a3"></div>
+            <div id="b3"></div>
+            <div id="c3"></div>
+        </div>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
