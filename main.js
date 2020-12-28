@@ -24,6 +24,12 @@ let DisplayController = (function(){
         },
         hideGameOverSign: function(){
             gameMessageBox.style.display = 'none';
+        },
+        drawScore: function(a, b){
+            let player1Score = document.querySelector('#player1-score');
+            let player2Score = document.querySelector('#player2-score');
+            player1Score.textContent = a;
+            player2Score.textContent = b;
         }
     }
 })();
@@ -76,7 +82,7 @@ let Game = (function(){
         }
         return false;
 
-    }
+    };
     let hasFullHorizontal = function(){
         if((Gameboard.squareValues().a1.value !== '' 
             && Gameboard.squareValues().a1.value === Gameboard.squareValues().b1.value 
@@ -92,7 +98,7 @@ let Game = (function(){
                 return true;
             }
         return false;
-    }
+    };
     let hasFullDiagonal = function(){
         if((Gameboard.squareValues().a1.value !== '' 
             && Gameboard.squareValues().a1.value === Gameboard.squareValues().b2.value 
@@ -104,7 +110,7 @@ let Game = (function(){
                 return true;
             }
         return false;
-    }
+    };
     let gameOver = function(){
         if(hasFullVertical()
         || hasFullHorizontal()
@@ -113,12 +119,26 @@ let Game = (function(){
         }
         return false;
     };
+    let setScores = function(player1Score, player2Score){
+        DisplayController.drawScore(player1Score, player2Score);
+        player1.score = getScores().player1;
+        player2.score = getScores().player2;
+    };
+    let getScores = function(){
+        let player1Score = document.querySelector('#player1-score').textContent;
+        let player2Score = document.querySelector('#player2-score').textContent;
+        return {
+            player1: player1Score,
+            player2: player2Score
+        };
+
+    };
     let resetGame = function(){
         gameIsOver = false;
         currentTurn = 'X';
         Gameboard.cleanBoard();
         DisplayController.hideGameOverSign();
-    }
+    };
     let isDraw = function(){
         if(gameOver()) {
             return false;
@@ -128,9 +148,8 @@ let Game = (function(){
                 return false;
             }
         }
-        console.log("draw");
         return true;
-    }
+    };
     return{
         attemptMove: function(square){
             isDraw();
@@ -141,14 +160,23 @@ let Game = (function(){
                     if(isDraw()){
                         message = "Draw";
                     }
+                    if(message == 'X'){
+                        player1.score++;
+                        message = `${player1.name} Wins!`;
+                    }
+                    if(message == 'O'){
+                        player2.score++;
+                        message = `${player2.name} Wins!`;
+                    }
                     DisplayController.showGameOverSign(message);
+                    setScores(player1.score, player2.score);
                     currentTurn = 'X';
                     gameIsOver = true;
                 }
                 currentTurn = (currentTurn == 'O')? 'X': 'O';
             }   
         }
-    }
+    };
 })();
 
 

@@ -109,9 +109,10 @@ body{
 
 
 .game-message-box{
+    width: 200px;
     position: fixed;
-    top: 50%;
-    left: calc(50% - 100px);
+    top: calc(50% - 50px);
+    left: calc(50% - 130px);
     background-color: rgb(17, 17, 17);
     padding: 30px;
     text-align: center;
