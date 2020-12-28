@@ -30,6 +30,14 @@ body{
     font-weight: bold;
     font-size: 30px;
 }
+.score-input{
+    margin: 10px;
+    height: 20px;
+    width: 70px;
+    border: none;
+    color: #c3c3c3;
+    background-color: rgba(172, 89, 75, 0.295);
+}
 .options-container{
     display: flex;
     justify-content: center;

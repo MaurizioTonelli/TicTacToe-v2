@@ -36,6 +36,7 @@ let DisplayController = (function(){
 
 let Gameboard = (function(){
     let squares = document.querySelectorAll('.game-board div');
+
     squares.forEach(div=>{
         div.addEventListener('click', square=>{
             Game.attemptMove(div);
@@ -120,19 +121,15 @@ let Game = (function(){
         return false;
     };
     let setScores = function(player1Score, player2Score){
-        DisplayController.drawScore(player1Score, player2Score);
-        player1.score = getScores().player1;
-        player2.score = getScores().player2;
+        if(currentTurn == 'X'){
+            player1.score++;
+        }
+        if(currentTurn == 'O'){
+            player2.score++;
+        }
+        DisplayController.drawScore(player1.score, player2.score);
     };
-    let getScores = function(){
-        let player1Score = document.querySelector('#player1-score').textContent;
-        let player2Score = document.querySelector('#player2-score').textContent;
-        return {
-            player1: player1Score,
-            player2: player2Score
-        };
 
-    };
     let resetGame = function(){
         gameIsOver = false;
         currentTurn = 'X';
@@ -150,24 +147,25 @@ let Game = (function(){
         }
         return true;
     };
+    let getRoundMessage = function(){
+        let message = currentTurn;
+        if(isDraw()){
+            message = "Draw";
+        }
+        if(message == 'X'){
+            message = `${player1.name} Wins!`;
+        }
+        if(message == 'O'){
+            message = `${player2.name} Wins!`;
+        }
+        return message;
+    }
     return{
         attemptMove: function(square){
-            isDraw();
             if(square.textContent == "" && !gameIsOver){
                 DisplayController.writeSymbol(square, currentTurn);
                 if(gameOver() || isDraw()){
-                    let message = currentTurn;
-                    if(isDraw()){
-                        message = "Draw";
-                    }
-                    if(message == 'X'){
-                        player1.score++;
-                        message = `${player1.name} Wins!`;
-                    }
-                    if(message == 'O'){
-                        player2.score++;
-                        message = `${player2.name} Wins!`;
-                    }
+                    let message = getRoundMessage();
                     DisplayController.showGameOverSign(message);
                     setScores(player1.score, player2.score);
                     currentTurn = 'X';
@@ -181,8 +179,39 @@ let Game = (function(){
 
 
 document.querySelector('#edit-player1').addEventListener('click',(e)=>{
-    //CHANGE PLAYER1 NAME
+    let playerDiv = document.querySelector('.player1');
+    let playerPara = document.querySelector('.player1-name');
+    let playerInput = document.createElement('input');
+    playerInput.classList.add('score-input');
+    playerInput.addEventListener('keyup', e=>{
+        if(e.key == 'Enter'){
+            playerPara.textContent = playerInput.value;
+            player1.name = playerInput.value;
+            playerDiv.appendChild(playerPara);
+            playerDiv.removeChild(playerInput);
+        }
+    });
+    playerDiv.appendChild(playerInput);
+    playerDiv.removeChild(playerPara);
+
+    player1.name = playerPara.textContent;
 });
+
 document.querySelector('#edit-player2').addEventListener('click',(e)=>{
-    //CHANGE PLAYER2 NAME
+    let playerDiv = document.querySelector('.player2');
+    let playerPara = document.querySelector('.player2-name');
+    let playerInput = document.createElement('input');
+    playerInput.classList.add('score-input');
+    playerInput.addEventListener('keyup', e=>{
+        if(e.key == 'Enter'){
+            playerPara.textContent = playerInput.value;
+            player2.name = playerInput.value;
+            playerDiv.insertAdjacentElement('afterbegin',playerPara);
+            playerDiv.removeChild(playerInput);
+        }
+    });
+    playerDiv.insertAdjacentElement('afterbegin',playerInput);
+    playerDiv.removeChild(playerPara);
+
+    player2.name = playerPara.textContent;
 });
