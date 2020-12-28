@@ -29,6 +29,11 @@ body{
 .score{
     font-weight: bold;
     font-size: 30px;
+    margin: 3px;
+}
+.score-container{
+    display: flex;
+    flex-direction: row;
 }
 .score-input{
     margin: 10px;

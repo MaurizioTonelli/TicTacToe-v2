@@ -25,11 +25,11 @@ let DisplayController = (function(){
         hideGameOverSign: function(){
             gameMessageBox.style.display = 'none';
         },
-        drawScore: function(a, b){
+        drawScores: function(){
             let player1Score = document.querySelector('#player1-score');
             let player2Score = document.querySelector('#player2-score');
-            player1Score.textContent = a;
-            player2Score.textContent = b;
+            player1Score.textContent = player1.score;
+            player2Score.textContent = player2.score;
         }
     }
 })();
@@ -120,14 +120,14 @@ let Game = (function(){
         }
         return false;
     };
-    let setScores = function(player1Score, player2Score){
+    let updateScores = function(){
         if(currentTurn == 'X'){
             player1.score++;
         }
         if(currentTurn == 'O'){
             player2.score++;
         }
-        DisplayController.drawScore(player1.score, player2.score);
+        DisplayController.drawScores();
     };
 
     let resetGame = function(){
@@ -167,7 +167,7 @@ let Game = (function(){
                 if(gameOver() || isDraw()){
                     let message = getRoundMessage();
                     DisplayController.showGameOverSign(message);
-                    setScores(player1.score, player2.score);
+                    updateScores();
                     currentTurn = 'X';
                     gameIsOver = true;
                 }
@@ -214,4 +214,10 @@ document.querySelector('#edit-player2').addEventListener('click',(e)=>{
     playerDiv.removeChild(playerPara);
 
     player2.name = playerPara.textContent;
+});
+
+document.querySelector('#reset-score').addEventListener('click', (e)=>{
+    player1.score = 0;
+    player2.score = 0;
+    DisplayController.drawScores();
 });
